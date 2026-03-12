@@ -953,3 +953,9 @@
 @media (max-width: 540px) {
     .footer-top-inner { grid-template-columns: 1fr; }
 }
+
+.logo-img {
+    height: 38px;
+    width: auto;
+    display: block;
+}
