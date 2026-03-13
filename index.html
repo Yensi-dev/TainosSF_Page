@@ -1,203 +1,547 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tainos SF | Software Factory</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/pages.css">
-    <link rel="icon" type="image/x-icon" href="video/ALPHAONE.png">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Taino Software Factory – Software a Medida para el Caribe & LATAM</title>
+  <meta name="description" content="Taino Software Factory desarrolla soluciones de software empresarial, apps móviles y plataformas cloud para el Caribe y Latinoamérica."/>
+  <link rel="icon" href="img/Logo_TainoSF.png">
+  <link rel="stylesheet" href="css/styles.css"/>
+  <style>
+    /* ============================
+       HERO – Caribbean Edition
+       ============================ */
+    .hero {
+      min-height: 100vh;
+      display: flex; align-items: center;
+      position: relative; overflow: hidden;
+      padding: 7rem 0 4rem;
+      background: linear-gradient(160deg, var(--ocean-deep) 0%, var(--ocean) 45%, var(--sky) 100%);
+      color: #fff;
+    }
+    /* Animated ocean gradient */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(34,211,238,0.2) 0%, transparent 60%),
+                  radial-gradient(ellipse 50% 80% at 10% 80%, rgba(6,182,212,0.15) 0%, transparent 50%);
+      z-index: 1; pointer-events: none;
+    }
+    #particleCanvas {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: 2;
+    }
+    .hero-grid {
+      position: absolute; inset: 0; z-index: 1;
+      background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 55px 55px;
+    }
+
+    /* Palm trees SVG decorations */
+    .palm-left, .palm-right {
+      position: absolute; bottom: 0; z-index: 3; pointer-events: none;
+    }
+    .palm-left { left: -20px; }
+    .palm-right { right: -20px; transform: scaleX(-1); }
+
+    /* Wave bottom */
+    .hero-wave {
+      position: absolute; bottom: -2px; left: 0; right: 0;
+      z-index: 4; line-height: 0;
+    }
+
+    .hero-inner {
+      position: relative; z-index: 5;
+      display: grid; grid-template-columns: 1.1fr 0.9fr;
+      gap: 4rem; align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 50px; padding: 0.4rem 1.1rem;
+      font-family: var(--font-head); font-size: 0.75rem; font-weight: 700;
+      color: #fff; letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 1.5rem; backdrop-filter: blur(8px);
+    }
+    .hero-title {
+      font-family: var(--font-head);
+      font-size: clamp(2.8rem, 5.5vw, 4.5rem);
+      font-weight: 900; line-height: 1.08;
+      letter-spacing: -0.04em; margin-bottom: 1.5rem; color: #fff;
+    }
+    .hero-title .gradient-text {
+      background: linear-gradient(135deg, var(--aqua), var(--sun));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .hero-desc { font-size: 1.1rem; color: rgba(255,255,255,0.82); max-width: 540px; line-height: 1.8; margin-bottom: 2.5rem; }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 3rem; }
+    .hero-trust { display: flex; align-items: center; gap: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.15); }
+    .hero-trust span { font-size: 0.82rem; color: rgba(255,255,255,0.5); font-family: var(--font-head); }
+    .trust-logos { display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap; }
+    .trust-logo { height: 28px; padding: 0 12px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); border-radius: 6px; display: flex; align-items: center; font-family: var(--font-head); font-size: 0.72rem; font-weight: 700; color: rgba(255,255,255,0.55); letter-spacing: 0.04em; }
+
+    .hero-visual { position: relative; }
+    .hero-img-wrap { position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid rgba(34,211,238,0.3); box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 60px rgba(14,165,233,0.2); }
+    .hero-img-wrap img { width: 100%; display: block; filter: brightness(0.88); transition: filter 0.5s; }
+    .hero-img-wrap:hover img { filter: brightness(1.02); }
+    .hero-img-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(12,26,46,0.8) 0%, transparent 60%); pointer-events: none; }
+    .hero-float-stat { position: absolute; background: rgba(12,26,46,0.88); backdrop-filter: blur(12px); border: 1px solid rgba(14,165,233,0.4); box-shadow: 0 10px 30px rgba(0,0,0,0.4); border-radius: var(--radius-md); padding: 1rem 1.4rem; z-index: 5; }
+    .hero-float-stat .stat-val { font-family: var(--font-head); font-size: 1.6rem; font-weight: 900; color: #fff; line-height: 1; letter-spacing: -0.04em; }
+    .hero-float-stat .stat-lbl { font-size: 0.72rem; color: rgba(255,255,255,0.5); margin-top: 0.3rem; font-family: var(--font-head); font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+    .float-1 { top: -20px; right: -20px; min-width: 150px; }
+    .float-2 { bottom: 30px; left: -30px; min-width: 180px; }
+
+    /* ============================
+       STATS BAR
+       ============================ */
+    .stats-bar { padding: 3rem 0; background: var(--bg-navy); }
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+    .stat-item { text-align: center; padding: 1.5rem 1rem; border-right: 1px solid rgba(255,255,255,0.06); }
+    .stat-item:last-child { border-right: none; }
+    .stat-num { font-family: var(--font-head); font-size: 2.5rem; font-weight: 900; letter-spacing: -0.04em; background: linear-gradient(135deg, var(--aqua), var(--sky-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; }
+    .stat-label { font-size: 0.82rem; color: rgba(148,163,184,0.6); margin-top: 0.4rem; font-family: var(--font-head); font-weight: 500; }
+
+    /* ============================
+       COLMADO SECTION 🏪
+       ============================ */
+    .colmado-strip {
+      background: linear-gradient(135deg, var(--sky), var(--turquoise), var(--ocean));
+      padding: 1.5rem 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .colmado-strip-inner {
+      display: flex; gap: 3rem; align-items: center;
+      animation: marquee 20s linear infinite;
+      white-space: nowrap;
+      width: max-content;
+    }
+    .colmado-item {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-family: var(--font-head); font-size: 0.85rem; font-weight: 700;
+      color: rgba(255,255,255,0.9); letter-spacing: 0.04em; text-transform: uppercase;
+    }
+    .colmado-divider { color: rgba(255,255,255,0.35); font-size: 1.2rem; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ============================
+       OVERVIEW CARDS
+       ============================ */
+    .overview-card { background: var(--bg-card); border: 1px solid var(--border-soft); border-radius: var(--radius-md); padding: 2rem; transition: var(--transition); box-shadow: 0 2px 12px rgba(14,165,233,0.06); }
+    .overview-card.has-bg { color: #fff; }
+    .overview-card.has-bg h3 { color: #fff; }
+    .overview-card.has-bg p { color: rgba(255,255,255,0.75); }
+    .overview-card:hover { border-color: var(--border); transform: translateY(-5px); box-shadow: 0 16px 50px rgba(14,165,233,0.12), var(--glow-sky); }
+    .overview-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 1.25rem; }
+    .overview-card h3 { font-family: var(--font-head); font-size: 1.05rem; font-weight: 700; margin-bottom: 0.6rem; letter-spacing: -0.03em; color: var(--text-dark); }
+    .overview-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* ============================
+       BENTO GRID
+       ============================ */
+    .bento-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.25rem; }
+    .bento-cell { background: var(--bg-card); border: 1px solid var(--border-soft); border-radius: var(--radius-md); padding: 2rem; transition: var(--transition); overflow: hidden; position: relative; box-shadow: 0 2px 10px rgba(14,165,233,0.05); }
+    .bento-cell:hover { border-color: var(--border); box-shadow: 0 12px 40px rgba(14,165,233,0.1); }
+    .bento-cell.has-bg h3, .bento-cell.has-bg p { color: #fff; }
+    .bento-cell.has-bg p { color: rgba(255,255,255,0.75); }
+    .bc-1 { grid-column: span 7; }
+    .bc-2 { grid-column: span 5; }
+    .bc-3 { grid-column: span 4; }
+    .bc-4 { grid-column: span 4; }
+    .bc-5 { grid-column: span 4; }
+    .bento-cell h3 { font-family: var(--font-head); font-size: 1.1rem; font-weight: 700; margin: 1rem 0 0.6rem; letter-spacing: -0.03em; color: var(--text-dark); }
+    .bento-cell p { font-size: 0.87rem; color: var(--text-muted); line-height: 1.7; }
+    .bento-icon { font-size: 2rem; }
+    .bento-bg-glow { position: absolute; width: 200px; height: 200px; border-radius: 50%; filter: blur(60px); opacity: 0.12; pointer-events: none; top: -40px; right: -40px; }
+
+    /* ============================
+       ISLAND DIVIDER
+       ============================ */
+    .island-divider {
+      position: relative; overflow: hidden;
+      background: var(--bg-deep); padding: 4rem 0;
+      text-align: center;
+    }
+    .island-scene {
+      position: relative; max-width: 700px; margin: 0 auto;
+    }
+
+    /* ============================
+       TESTIMONIALS
+       ============================ */
+    .testimonials-bg { background: var(--bg-sky); }
+    .testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+    .testi-card { background: var(--bg-card); border: 1px solid var(--border-soft); border-radius: var(--radius-md); padding: 2rem; transition: var(--transition); box-shadow: 0 2px 10px rgba(14,165,233,0.05); }
+    .testi-card:hover { border-color: var(--border); transform: translateY(-4px); box-shadow: 0 16px 40px rgba(14,165,233,0.1); }
+    .testi-stars { color: var(--sun); font-size: 0.9rem; margin-bottom: 1rem; letter-spacing: 2px; }
+    .testi-text { font-size: 0.9rem; color: var(--text-muted); line-height: 1.75; margin-bottom: 1.5rem; font-style: italic; }
+    .testi-footer { display: flex; align-items: center; gap: 0.75rem; }
+    .testi-avatar { width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.9rem; color: #fff; font-family: var(--font-head); }
+    .testi-name { font-family: var(--font-head); font-weight: 700; font-size: 0.88rem; color: var(--text-dark); letter-spacing: -0.02em; }
+    .testi-role { font-size: 0.78rem; color: var(--text-muted); margin-top: 2px; }
+
+    /* ============================
+       CTA
+       ============================ */
+    .cta-section { padding: 7rem 0; position: relative; overflow: hidden; }
+    .cta-inner { position: relative; z-index: 1; text-align: center; max-width: 700px; margin: 0 auto; }
+    .cta-inner h2 { font-family: var(--font-head); font-size: clamp(2rem, 4vw, 3rem); font-weight: 900; margin-bottom: 1.25rem; letter-spacing: -0.04em; color: #fff; }
+    .cta-inner p { color: rgba(255,255,255,0.7); font-size: 1.05rem; margin-bottom: 2.5rem; }
+    .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    @media (max-width: 1024px) {
+      .bento-grid { grid-template-columns: 1fr 1fr; }
+      .bc-1,.bc-2,.bc-3,.bc-4,.bc-5 { grid-column: span 1; }
+    }
+    @media (max-width: 768px) {
+      .hero-inner { grid-template-columns: 1fr; }
+      .hero-visual { display: none; }
+      .palm-left, .palm-right { display: none; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.06); }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .bento-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-    <nav class="navbar" id="navbar">
-        <div class="nav-inner">
-         <a href="index.html" class="logo logo-text">TAINOS <span style="color: #0064d7d0;">SF</span></a>
-               <!--<a href="index.html" class="logo">
-                <img src="img/TSF3.png" alt="Tainos SF" class="logo-img">
-            </a>-->
-            <ul class="nav-links">
-                <li><a href="index.html" class="active">Home</a></li>
-                <li><a href="presence.html">Servicios</a></li>
-                <li><a href="benefits.html">¿Por qué <span style="color:#0c1c2ed0;">Tainos SF?</span></a></li>
-            </ul>
-            <div class="hamburger" id="hamburger-btn"><span></span><span></span><span></span></div>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-dark-bg">
+    <div class="nav-container">
+      <a href="index.html" class="nav-brand">
+        <img src="img/Logo_TainoSF.png" alt="" alt="Taino Software Factory" class="nav-logo"/>
+        <div class="nav-brand-text">
+          <span class="nav-brand-name">TAINO</span>
+          <span class="nav-brand-sub">Software Factory</span>
         </div>
-    </nav>
-    <div class="mobile-menu" id="mobile-menu">
-        <a href="index.html">Home</a>
-        <a href="presence.html">Servicios</a>
-        <a href="benefits.html">¿Por qué Tainos SF?</a>
+      </a>
+      <div class="nav-links">
+        <a href="index.html" class="active">Inicio</a>
+        <a href="features.html">Servicios</a>
+        <a href="about.html">Nosotros</a>
+      </div>
+      <div class="nav-cta">
+        <a href="#" class="btn btn-nav-demo">Demo</a>
+        <a href="#" class="btn btn-nav-primary">Comenzar</a>
+      </div>
+      <button class="nav-toggle" aria-label="Menú"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <!-- Palm Tree Left -->
+    <svg class="palm-left" width="220" height="420" viewBox="0 0 220 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- trunk -->
+      <path d="M110 420 C108 380 104 340 106 300 C108 260 112 220 110 180 C108 150 105 130 108 110" stroke="rgba(255,255,255,0.15)" stroke-width="12" stroke-linecap="round" fill="none"/>
+      <!-- fronds -->
+      <path d="M108 110 C80 80 30 50 10 20" stroke="rgba(34,197,94,0.4)" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <path d="M108 110 C95 70 90 30 95 5" stroke="rgba(34,197,94,0.4)" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <path d="M108 110 C130 75 160 55 180 30" stroke="rgba(34,197,94,0.35)" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <path d="M108 110 C140 90 175 85 200 75" stroke="rgba(34,197,94,0.3)" stroke-width="4" stroke-linecap="round" fill="none"/>
+      <path d="M108 110 C75 100 45 95 15 90" stroke="rgba(34,197,94,0.3)" stroke-width="4" stroke-linecap="round" fill="none"/>
+      <!-- coconuts -->
+      <circle cx="108" cy="118" r="6" fill="rgba(139,90,43,0.4)"/>
+      <circle cx="116" cy="122" r="5" fill="rgba(139,90,43,0.35)"/>
+    </svg>
+
+    <!-- Palm Tree Right -->
+    <svg class="palm-right" width="220" height="420" viewBox="0 0 220 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M110 420 C108 380 104 340 106 300 C108 260 112 220 110 180 C108 150 105 130 108 110" stroke="rgba(255,255,255,0.15)" stroke-width="12" stroke-linecap="round" fill="none"/>
+      <path d="M108 110 C80 80 30 50 10 20" stroke="rgba(34,197,94,0.4)" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <path d="M108 110 C95 70 90 30 95 5" stroke="rgba(34,197,94,0.4)" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <path d="M108 110 C130 75 160 55 180 30" stroke="rgba(34,197,94,0.35)" stroke-width="5" stroke-linecap="round" fill="none"/>
+      <path d="M108 110 C140 90 175 85 200 75" stroke="rgba(34,197,94,0.3)" stroke-width="4" stroke-linecap="round" fill="none"/>
+      <path d="M108 110 C75 100 45 95 15 90" stroke="rgba(34,197,94,0.3)" stroke-width="4" stroke-linecap="round" fill="none"/>
+      <circle cx="108" cy="118" r="6" fill="rgba(139,90,43,0.4)"/>
+      <circle cx="116" cy="122" r="5" fill="rgba(139,90,43,0.35)"/>
+    </svg>
+
+    <canvas id="particleCanvas"></canvas>
+    <div class="hero-grid"></div>
+
+    <!-- Wave bottom -->
+    <div class="hero-wave">
+      <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#ffffff"/>
+      </svg>
     </div>
 
-    <!-- HERO -->
-    <section class="hero" id="hero">
-        <div class="hero-bg">
-            <img class="hero-img" src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=85&w=1920" alt="Hero background">
-            <div class="hero-overlay"></div>
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-content">
+          <div class="hero-badge reveal">
+            <span class="dot"></span> Software a Medida · Caribe & LATAM 🌴
+          </div>
+          <h1 class="hero-title reveal delay-1">
+            Soluciones digitales<br/>
+            <span class="gradient-text">nacidas del Caribe</span>
+          </h1>
+          <p class="hero-desc reveal delay-2">
+            Taino Software Factory diseña y desarrolla software empresarial, aplicaciones web y móviles, y plataformas cloud personalizadas. Tecnología de clase mundial con alma caribeña. 🏝️
+          </p>
+          <div class="hero-actions reveal delay-3">
+            <a href="#" class="btn btn-primary" style="background:#fff; color:var(--ocean-deep); box-shadow:0 4px 20px rgba(255,255,255,0.3);">Solicitar Propuesta ➝</a>
+            <a href="features.html" class="btn btn-ghost-light">Ver Servicios</a>
+          </div>
         </div>
-        <div class="hero-inner">
-            <div class="hero-content">
-                <h1>Software flexible y<br>soluciones digitales<br><em>para tu empresa.</em></h1>
-                <p>Desde Pymes hasta grandes empresas, Tainos SF te ofrece software ERP, páginas web, landing pages y mucho más — todo desde un solo partner tecnológico de confianza.</p>
-                <div class="hero-actions">
-                    <a href="#servicios" class="btn-ghost"><i class="fas fa-chevron-down"></i> Ver servicios</a>
-                </div>
-            </div>
+        <div class="hero-visual reveal-left delay-3">
+          <div class="hero-img-wrap">
+            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800" alt="Dashboard Taino"/>
+            <div class="hero-img-overlay"></div>
+          </div>
+          <div class="hero-float-stat float-1 reveal delay-5">
+            <div class="stat-val" data-target="99.9" data-suffix="%" data-decimals="1">0</div>
+            <div class="stat-lbl">Uptime Garantizado</div>
+          </div>
+          <div class="hero-float-stat float-2 reveal delay-6">
+            <div style="font-size:1.6rem; margin-bottom:4px;">🏝️</div>
+            <div class="stat-val" data-target="12" data-suffix="+" style="font-size:1.3rem;">0</div>
+            <div class="stat-lbl">Años de experiencia</div>
+          </div>
         </div>
-    </section>
+      </div>
+    </div>
+  </section>
 
-    <!-- SERVICIOS -->
-    <section class="section bg-white" id="servicios">
-        <div class="container">
-            <div class="section-header reveal">
-                <span class="eyebrow">Servicios</span>
-                <h2>Lo que Tainos SF ofrece</h2>
-                <p>Software de gestión, presencia digital y consultoría tecnológica — todo lo que tu Pyme necesita para operar más inteligente y crecer con confianza.</p>
-            </div>
+  <!-- ===================== COLMADO STRIP 🏪 ===================== -->
+  <div class="colmado-strip">
+    <div class="colmado-strip-inner">
+      <span class="colmado-item">🏪 Software a Medida</span>
+      <span class="colmado-divider">🌊</span>
+      <span class="colmado-item">📱 Apps Móviles</span>
+      <span class="colmado-divider">🌴</span>
+      <span class="colmado-item">☁️ Cloud & DevOps</span>
+      <span class="colmado-divider">🐠</span>
+      <span class="colmado-item">🤖 Inteligencia Artificial</span>
+      <span class="colmado-divider">🌊</span>
+      <span class="colmado-item">📊 Data & Analytics</span>
+      <span class="colmado-divider">🌴</span>
+      <span class="colmado-item">🔐 Ciberseguridad</span>
+      <span class="colmado-divider">🐠</span>
+      <!-- Duplicate for seamless loop -->
+      <span class="colmado-item">🏪 Software a Medida</span>
+      <span class="colmado-divider">🌊</span>
+      <span class="colmado-item">📱 Apps Móviles</span>
+      <span class="colmado-divider">🌴</span>
+      <span class="colmado-item">☁️ Cloud & DevOps</span>
+      <span class="colmado-divider">🐠</span>
+      <span class="colmado-item">🤖 Inteligencia Artificial</span>
+      <span class="colmado-divider">🌊</span>
+      <span class="colmado-item">📊 Data & Analytics</span>
+      <span class="colmado-divider">🌴</span>
+      <span class="colmado-item">🔐 Ciberseguridad</span>
+      <span class="colmado-divider">🐠</span>
+    </div>
+  </div>
 
-            <div class="services-grid">
-
-                <!-- 1 -->
-                <div class="svc-card">
-                    <div class="svc-card-img">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800" alt="Implementación rápida">
-                    </div>
-                    <div class="svc-card-overlay"></div>
-                    <div class="svc-card-num">01</div>
-                    <div class="svc-card-body">
-                        <div class="svc-card-tag"><i class="fas fa-bolt"></i> Implementación</div>
-                        <div class="svc-card-title">Implementación rápida</div>
-                        <div class="svc-card-desc">Comience a utilizar el sistema en poco tiempo. Nuestra plataforma está diseñada para adaptarse fácilmente a su negocio, permitiendo que su equipo trabaje con herramientas modernas sin procesos complicados.</div>
-                    </div>
-                </div>
-
-                <!-- 2 -->
-                <div class="svc-card">
-                    <div class="svc-card-img">
-                        <img src="https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&q=80&w=800" alt="Adaptado a su negocio">
-                    </div>
-                    <div class="svc-card-overlay"></div>
-                    <div class="svc-card-num">02</div>
-                    <div class="svc-card-body">
-                        <div class="svc-card-tag"><i class="fas fa-sliders-h"></i> Flexibilidad</div>
-                        <div class="svc-card-title">Adaptado a su negocio</div>
-                        <div class="svc-card-desc">Cada empresa es diferente. Por eso el sistema se ajusta a sus procesos y necesidades, brindándole una solución flexible que evoluciona junto con su crecimiento.</div>
-                    </div>
-                </div>
-
-                <!-- 3 -->
-                <div class="svc-card">
-                    <div class="svc-card-img">
-                        <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&q=80&w=800" alt="Información en tiempo real">
-                    </div>
-                    <div class="svc-card-overlay"></div>
-                    <div class="svc-card-num">03</div>
-                    <div class="svc-card-body">
-                        <div class="svc-card-tag"><i class="fas fa-chart-line"></i> Tiempo Real</div>
-                        <div class="svc-card-title">Información clara en tiempo real</div>
-                        <div class="svc-card-desc">Acceda a datos importantes de su negocio cuando lo necesite. Controle ventas, inventario y operaciones con información precisa que le ayuda a tomar mejores decisiones.</div>
-                    </div>
-                </div>
-
-                <!-- 4 -->
-                <div class="svc-card">
-                    <div class="svc-card-img">
-                        <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=800" alt="Escalabilidad">
-                    </div>
-                    <div class="svc-card-overlay"></div>
-                    <div class="svc-card-num">04</div>
-                    <div class="svc-card-body">
-                        <div class="svc-card-tag"><i class="fas fa-expand-arrows-alt"></i> Escalabilidad</div>
-                        <div class="svc-card-title">Escalabilidad para crecer</div>
-                        <div class="svc-card-desc">Empiece con lo que necesita hoy y amplíe el sistema a medida que su empresa crece. Nuestra tecnología está preparada para acompañar cada etapa de su negocio.</div>
-                    </div>
-                </div>
-
-                <!-- 5 -->
-                <div class="svc-card">
-                    <div class="svc-card-img">
-                        <img src="https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&q=80&w=800" alt="Experiencia simple">
-                    </div>
-                    <div class="svc-card-overlay"></div>
-                    <div class="svc-card-num">05</div>
-                    <div class="svc-card-body">
-                        <div class="svc-card-tag"><i class="fas fa-hand-pointer"></i> Usabilidad</div>
-                        <div class="svc-card-title">Experiencia simple para su equipo</div>
-                        <div class="svc-card-desc">Una plataforma intuitiva y fácil de usar que reduce el tiempo de aprendizaje y mejora la productividad de su equipo desde el primer día.</div>
-                    </div>
-                </div>
-
-                <!-- 6 -->
-                <div class="svc-card">
-                    <div class="svc-card-img">
-                        <img src="https://images.unsplash.com/photo-1573164574572-cb89e39749b4?auto=format&fit=crop&q=80&w=800" alt="Tecnología confiable">
-                    </div>
-                    <div class="svc-card-overlay"></div>
-                    <div class="svc-card-num">06</div>
-                    <div class="svc-card-body">
-                        <div class="svc-card-tag"><i class="fas fa-shield-alt"></i> Confiabilidad</div>
-                        <div class="svc-card-title">Tecnología confiable</div>
-                        <div class="svc-card-desc">Trabaje con una solución moderna y segura, diseñada para ofrecer estabilidad, rendimiento y confianza en las operaciones diarias de su empresa.</div>
-                    </div>
-                </div>
-
-            </div>
+  <!-- ===================== STATS BAR ===================== -->
+  <div class="stats-bar">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item reveal">
+          <div class="stat-num" data-target="150" data-suffix="+">0</div>
+          <div class="stat-label">Proyectos entregados</div>
         </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="site-footer">
-        <div class="footer-top">
-            <div class="container footer-top-inner">
-
-                <div class="footer-col footer-brand-col">
-                    <div class="footer-logo">TAINOS SF</div>
-                    <p class="footer-tagline">Software Factory para Pymes. Tecnología que se adapta a tu negocio — desde República Dominicana.</p>
-                    <div class="footer-socials">
-                        <a href="#" class="fsoc fsoc-wa" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                        <a href="#" class="fsoc fsoc-ig" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="fsoc fsoc-fb" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                    </div>
-                </div>
-
-                <div class="footer-col">
-                    <h5 class="footer-col-title">Contacto</h5>
-                    <ul class="footer-contact-list">
-                        <li><span class="fc-icon"><i class="fas fa-map-marker-alt"></i></span><span>Santo Domingo,<br>República Dominicana</span></li>
-                        <li><span class="fc-icon"><i class="fas fa-phone"></i></span><a href="tel:+18094567890">+1 (809) 456-7890</a></li>
-                        <li><span class="fc-icon"><i class="fas fa-envelope"></i></span><a href="mailto:info@tainossf.com">info@tainossf.com</a></li>
-                        <li><span class="fc-icon"><i class="fab fa-whatsapp"></i></span><a href="https://wa.me/18094567890">WhatsApp</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h5 class="footer-col-title">Páginas</h5>
-                    <ul class="footer-col-links">
-                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
-                        <li><a href="presence.html"><i class="fas fa-chevron-right"></i> Servicios</a></li>
-                        <li><a href="benefits.html"><i class="fas fa-chevron-right"></i> ¿Por qué Tainos SF?</a></li>
-                    </ul>
-                </div>
-            </div>
+        <div class="stat-item reveal delay-1">
+          <div class="stat-num" data-target="18" data-suffix="+">0</div>
+          <div class="stat-label">Países atendidos</div>
         </div>
-        <div class="footer-bar">
-            <div class="container footer-bar-inner">
-                <p>&copy; 2025 Tainos Software Factory.</p>
-            </div>
+        <div class="stat-item reveal delay-2">
+          <div class="stat-num" data-target="99.9" data-suffix="%" data-decimals="1">0</div>
+          <div class="stat-label">Uptime garantizado</div>
         </div>
-    </footer>
+        <div class="stat-item reveal delay-3">
+          <div class="stat-num" data-target="12" data-suffix=" años">0</div>
+          <div class="stat-label">En el mercado</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/scripts.js"></script>
-   <script>
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.reveal, .svc-card').forEach(el => observer.observe(el));
-    </script>
+  <!-- ===================== OVERVIEW ===================== -->
+  <section class="section" style="background: var(--bg-sky); position:relative; overflow:hidden;">
+    <!-- Decorative background palms -->
+    <svg style="position:absolute;top:0;right:0;opacity:0.04;pointer-events:none;z-index:0;" width="300" height="400" viewBox="0 0 300 400">
+      <path d="M150 400 C148 360 144 320 146 280 C148 240 152 200 150 160 C148 130 145 110 148 90" stroke="#0ea5e9" stroke-width="16" stroke-linecap="round" fill="none"/>
+      <path d="M148 90 C120 60 70 30 40 5" stroke="#22c55e" stroke-width="7" stroke-linecap="round" fill="none"/>
+      <path d="M148 90 C140 50 138 10 142 -10" stroke="#22c55e" stroke-width="7" stroke-linecap="round" fill="none"/>
+      <path d="M148 90 C175 58 210 40 235 18" stroke="#22c55e" stroke-width="7" stroke-linecap="round" fill="none"/>
+      <path d="M148 90 C185 72 220 68 255 55" stroke="#22c55e" stroke-width="6" stroke-linecap="round" fill="none"/>
+    </svg>
+    <div class="container" style="position:relative;z-index:1;">
+      <div class="text-center" style="margin-bottom:4rem;">
+        <div class="section-tag reveal">🌴 ¿Por qué Taino?</div>
+        <h2 class="section-title reveal delay-1">Una fábrica de software,<br/><span class="highlight">todo el poder</span></h2>
+        <p class="section-subtitle reveal delay-2">Construimos soluciones digitales que combinan tecnología de punta con profundo conocimiento de los mercados caribeño y latinoamericano.</p>
+      </div>
+      <div class="grid-3">
+
+        <!-- Card 1 — Entrega ágil → Ferretería local -->
+        <div class="overview-card reveal has-bg bg-image" style="background-image: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=800');">
+          <div class="bg-overlay-ocean"></div>
+          <div class="content-over-img">
+            <div class="overview-icon" style="background:rgba(34,211,238,0.2); color:var(--aqua);">⚡</div>
+            <h3>Entrega ágil</h3>
+            <p>Desarrollamos con metodologías ágiles. Primeras versiones en semanas, no meses.</p>
+          </div>
+        </div>
+
+        <!-- Card 2 — IA & Automatización (sin foto) -->
+        <div class="overview-card reveal delay-2">
+          <div class="overview-icon" style="background:rgba(14,165,233,0.12); color:var(--sky);">🧠</div>
+          <h3>IA & Automatización</h3>
+          <p>Incorporamos inteligencia artificial y automatizaciones que potencian tu negocio desde el día uno.</p>
+        </div>
+
+        <!-- Card 3 — Seguridad empresarial → Clínica / farmacia sencilla -->
+        <div class="overview-card reveal delay-4 has-bg bg-image" style="background-image: url('https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800');">
+          <div class="bg-overlay-ocean"></div>
+          <div class="content-over-img">
+            <div class="overview-icon" style="background:rgba(6,182,212,0.2); color:var(--turquoise);">🔒</div>
+            <h3>Seguridad empresarial</h3>
+            <p>Cifrado end-to-end, cumplimiento ISO 27001 y auditorías en tiempo real.</p>
+          </div>
+        </div>
+
+        <!-- Card 4 — Multi-región (sin foto) -->
+        <div class="overview-card reveal">
+          <div class="overview-icon" style="background:rgba(251,191,36,0.12); color:var(--sun-warm);">🌐</div>
+          <h3>Multi-región</h3>
+          <p>Infraestructura optimizada para el Caribe y LATAM, con soporte local en tu idioma.</p>
+        </div>
+
+        <!-- Card 5 — Integración total → Farmacia local con mostrador -->
+        <div class="overview-card reveal delay-2 has-bg bg-image" style="background-image: url('https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&q=80&w=800');">
+          <div class="bg-overlay-ocean"></div>
+          <div class="content-over-img">
+            <div class="overview-icon" style="background:rgba(34,211,238,0.2); color:var(--aqua);">🔗</div>
+            <h3>Integración total</h3>
+            <p>API REST y conectores para integrar con tus sistemas y herramientas existentes.</p>
+          </div>
+        </div>
+
+        <!-- Card 6 — Analytics (sin foto) -->
+        <div class="overview-card reveal delay-4">
+          <div class="overview-icon" style="background:rgba(22,163,74,0.1); color:var(--palm);">📊</div>
+          <h3>Analytics en tiempo real</h3>
+          <p>Dashboards, KPIs y reportes automáticos para tomar decisiones con datos.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="gradient-line"></div>
+
+  <!-- ===================== COLMADO / ISLAND VIBE SECTION 🏪 ===================== -->
+  <section class="section" style="background: linear-gradient(180deg, #ffffff 0%, var(--bg-sky) 100%); position:relative; overflow:hidden;">
+    <div class="container" style="position:relative;z-index:1;">
+
+      <!-- Tech section with visual -->
+      <div class="grid-2 align-center" style="gap:4rem;">
+        <div class="industry-content">
+          <div class="section-tag reveal" style="background:rgba(6,182,212,0.1);border-color:rgba(6,182,212,0.3);color:var(--turquoise);">⚙️ Stack Moderno</div>
+          <h2 class="section-title reveal delay-1" style="font-size:clamp(1.8rem,3.5vw,2.6rem);">De tu colmado <span class="highlight">a la nube</span></h2>
+          <p class="section-subtitle reveal delay-2" style="margin-bottom:2rem; font-size:0.95rem;">Modernizamos cualquier negocio — desde la ferretería de la esquina hasta la corporación multinacional. Migramos a la nube, integramos APIs y construimos la infraestructura digital que necesitas crecer.</p>
+          <ul class="industry-features reveal delay-3" style="color:var(--text-body);">
+            <li style="background:rgba(14,165,233,0.06); border-color:rgba(14,165,233,0.12); color:var(--text-body);"><span class="icon">🔄</span><div><strong style="color:var(--text-dark);">Modernización de Sistemas</strong>Migramos aplicaciones legacy a arquitecturas modernas sin interrumpir tu operación.</div></li>
+            <li style="background:rgba(14,165,233,0.06); border-color:rgba(14,165,233,0.12); color:var(--text-body);"><span class="icon">🌐</span><div><strong style="color:var(--text-dark);">Integración de Sistemas</strong>Conectamos tus plataformas con APIs, microservicios y todo el ecosistema local.</div></li>
+            <li style="background:rgba(14,165,233,0.06); border-color:rgba(14,165,233,0.12); color:var(--text-body);"><span class="icon">📈</span><div><strong style="color:var(--text-dark);">Data & Analytics</strong>Transformamos tus datos en decisiones estratégicas con BI y dashboards.</div></li>
+          </ul>
+          <a href="solutions.html" class="btn btn-primary reveal delay-4" style="margin-top:2rem;">Ver soluciones tecnológicas</a>
+        </div>
+        <div class="industry-visual reveal delay-2">
+          <div class="industry-img-main">
+            <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80&w=800" alt="Tecnología"/>
+          </div>
+          <div class="industry-img-float float-top">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=400" alt="Cloud"/>
+          </div>
+          <div class="industry-data-card float-bottom">
+            <div class="data-pulse"></div>
+            <div>
+              <div class="data-title">Proyectos Activos</div>
+              <div class="data-value">24</div>
+              <div class="data-trend up">↑ En desarrollo ahora</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="gradient-line"></div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="img/Logo_TainoSF.png" alt="Taino Software Factory" class="nav-logo"/><br>
+          <div class="footer-brand-name">TAINO</div>
+          <div class="footer-brand-sub">Software Factory</div>
+          <p>Fábrica de software especializada en soluciones digitales para empresas del Caribe y Latinoamérica. Del mar al código. 🌊</p>
+          <div class="footer-socials">
+            <div class="footer-social-btn">𝕏</div>
+            <div class="footer-social-btn">in</div>
+            <div class="footer-social-btn">▶</div>
+            <div class="footer-social-btn">f</div>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Servicios</h4>
+          <ul>
+            <li><a href="features.html">Software a Medida</a></li>
+            <li><a href="features.html">Apps Móviles</a></li>
+            <li><a href="features.html">Cloud & DevOps</a></li>
+            <li><a href="features.html">IA & ML</a></li>
+            <li><a href="features.html">Ciberseguridad</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Empresa</h4>
+          <ul>
+            <li><a href="about.html">Nosotros</a></li>
+            <li><a href="about.html#team">Equipo</a></li>
+            <li><a href="#">Carreras</a></li>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Partners</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contacto</h4>
+          <div class="footer-contact-item">
+            <div class="footer-contact-icon">📍</div>
+            <p><strong>Oficina Central</strong>Santo Domingo, República Dominicana 🇩🇴</p>
+          </div>
+          <div class="footer-contact-item">
+            <div class="footer-contact-icon">✉️</div>
+            <p><strong>Email</strong>hola@tainosf.com</p>
+          </div>
+          <div class="footer-contact-item">
+            <div class="footer-contact-icon">📞</div>
+            <p><strong>Teléfono</strong>+1 (809) 000-0000</p>
+          </div>
+          <div class="footer-contact-item">
+            <div class="footer-contact-icon">🕐</div>
+            <p><strong>Horario</strong>Lun – Vie, 8am – 6pm (AST)</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Taino Software Factory. Todos los derechos reservados. Hecho con ❤️ en el Caribe 🏝️</p>
+        <div class="footer-bottom-links">
+          <a href="#">Privacidad</a>
+          <a href="#">Términos</a>
+          <a href="#">Seguridad</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
 </body>
 </html>
