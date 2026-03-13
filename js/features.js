@@ -35,9 +35,17 @@
       scene.appendChild(d); return d;
     });
 
+    // ✅ CAMBIO: pausar solo al hacer hover sobre una tarjeta individual
     var paused=false, frozenT=0, startedAt=performance.now();
-    scene.addEventListener('mouseenter',function(){ if(!paused){frozenT=performance.now()-startedAt;paused=true;} });
-    scene.addEventListener('mouseleave',function(){ if(paused){startedAt=performance.now()-frozenT;paused=false;} });
+
+    cards.forEach(function(card){
+      card.addEventListener('mouseenter', function(){
+        if(!paused){ frozenT=performance.now()-startedAt; paused=true; }
+      });
+      card.addEventListener('mouseleave', function(){
+        if(paused){ startedAt=performance.now()-frozenT; paused=false; }
+      });
+    });
 
     function tick(now){
       layout();
@@ -62,4 +70,4 @@
       document.querySelectorAll('.lt-faq-item').forEach(function(i){ i.classList.remove('open'); });
       if(!wasOpen){ item.classList.add('open'); }
     });
-  });   
+  });
