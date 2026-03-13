@@ -5,12 +5,271 @@
   <title>Soluciones – Taino Software Factory</title>
   <link rel="icon" href="img/Logo_TainoSF.png">
   <link rel="stylesheet" href="css/styles.css"/>
+  <style>
+
+    /* ── PAGE-WIDE LIGHT OVERRIDES ─────────────────────── */
+    body { background: #f8fbff; }
+
+    /* shared section heading colours on light bg */
+    .lt-title   { color: #0c1f3f !important; }
+    .lt-sub     { color: #4a6080 !important; }
+    .lt-tag     {
+      background: rgba(14,165,233,0.08) !important;
+      border-color: rgba(14,165,233,0.22) !important;
+      color: #0284c7 !important;
+    }
+
+    /* ── INDUSTRY SECTION ──────────────────────────────── */
+    .industry-section {
+      background: #ffffff;
+      padding: 6rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .industry-section::before {
+      content:'';
+      position:absolute;
+      top:0; left:0; right:0;
+      height: 4px;
+      background: linear-gradient(90deg, #0ea5e9, #22d3ee, #0ea5e9);
+    }
+    /* override dark industry-card styles */
+    .lt-industry-card {
+      background: #f0f7ff;
+      border: 1px solid #d1e9ff;
+      border-radius: 16px;
+      padding: 1.6rem 1.8rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+    }
+    .lt-industry-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(14,165,233,0.12);
+      border-color: #93c5fd;
+    }
+    .lt-industry-icon {
+      width: 52px; height: 52px; flex-shrink: 0;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+    }
+    .lt-industry-card h3 { font-size:1.05rem; font-weight:800; color:#0c1f3f; margin:0 0 0.4rem; }
+    .lt-industry-card p  { font-size:0.85rem; color:#4a6080; line-height:1.65; margin:0 0 0.8rem; }
+    .lt-industry-tags    { display:flex; flex-wrap:wrap; gap:0.4rem; }
+    .lt-industry-tag {
+      font-size:0.7rem; font-weight:700; letter-spacing:0.04em;
+      padding:0.22rem 0.65rem; border-radius:999px;
+      background: rgba(14,165,233,0.1); color:#0284c7; border:1px solid rgba(14,165,233,0.2);
+    }
+    .lt-industry-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+    @media(max-width:700px){ .lt-industry-grid { grid-template-columns:1fr; } }
+
+    /* ── CAROUSEL SECTION ──────────────────────────────── */
+    .carousel-section {
+      background: linear-gradient(170deg, #e8f4fd 0%, #f0f9ff 50%, #e8f4fd 100%);
+      padding: 7rem 0 8rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .carousel-section::before {
+      content:'';
+      position:absolute;
+      inset:0;
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(14,165,233,0.07) 0%, transparent 70%);
+      pointer-events:none;
+    }
+    .carousel-info { max-width:540px; margin:0 auto; text-align:center; }
+
+    .orbit-scene { position:relative; margin:3.5rem auto 0; }
+
+    .orbit-ring {
+      position:absolute;
+      border-radius:50%;
+      border: 1.5px dashed rgba(14,165,233,0.3);
+      top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      pointer-events:none;
+    }
+    .orbit-hub {
+      position:absolute;
+      top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      border-radius:50%;
+      background: linear-gradient(135deg, #ffffff, #e8f4fd);
+      border: 2px solid rgba(14,165,233,0.35);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      z-index:10;
+      box-shadow: 0 6px 30px rgba(14,165,233,0.15), inset 0 0 20px rgba(14,165,233,0.04);
+    }
+    .orbit-hub .hub-emoji { font-size:2rem; line-height:1; }
+    .orbit-hub .hub-label { font-size:0.52rem; font-weight:800; color:#4a6080; letter-spacing:0.12em; text-transform:uppercase; margin-top:0.3rem; text-align:center; line-height:1.4; }
+
+    .orbit-card {
+      position:absolute;
+      border-radius:14px;
+      background: #ffffff;
+      border: 1px solid #d1e9ff;
+      padding:1.5rem 1.2rem 1.3rem;
+      text-align:center;
+      box-shadow: 0 4px 18px rgba(14,165,233,0.08);
+      cursor:pointer;
+      transition: background 0.3s, border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+      z-index:5;
+    }
+    .orbit-card:hover {
+      background: #e8f4fd;
+      border-color: #38bdf8;
+      box-shadow: 0 10px 36px rgba(14,165,233,0.2);
+      transform: scale(1.08) !important;
+      z-index:20;
+    }
+    .orbit-card-icon  { font-size:2.2rem; margin-bottom:0.55rem; display:block; line-height:1; }
+    .orbit-card-title { font-size:0.92rem; font-weight:800; color:#0c1f3f; margin-bottom:0.3rem; line-height:1.3; }
+    .orbit-card-desc  { font-size:0.78rem; color:#4a6080; line-height:1.55; }
+
+    .carousel-hint { margin-top:2.5rem; text-align:center; }
+    .carousel-hint-inner {
+      display:inline-block;
+      background: rgba(14,165,233,0.07);
+      border: 1px solid rgba(14,165,233,0.2);
+      border-radius:14px;
+      padding:0.9rem 2rem;
+      color:#4a6080;
+      font-size:0.84rem;
+    }
+
+    /* ── PRODUCTS SECTION ──────────────────────────────── */
+    .products-section {
+      background: #f8fbff;
+      padding: 6rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .products-section::before {
+      content:'';
+      position:absolute;
+      inset:0;
+      background: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(14,165,233,0.05) 0%, transparent 65%);
+      pointer-events:none;
+    }
+    .products-grid {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:2rem;
+      margin-top:3rem;
+    }
+    @media(max-width:900px){ .products-grid { grid-template-columns:1fr; } }
+
+    .product-card {
+      background: #ffffff;
+      border: 1px solid #d1e9ff;
+      border-radius: 20px;
+      overflow: hidden;
+      transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 2px 16px rgba(14,165,233,0.07);
+    }
+    .product-card:hover { transform:translateY(-8px); box-shadow:0 20px 50px rgba(14,165,233,0.15); }
+    .product-card:nth-child(1):hover { border-color:#38bdf8; }
+    .product-card:nth-child(2):hover { border-color:#fb923c; }
+    .product-card:nth-child(3):hover { border-color:#4ade80; }
+
+    .product-gradient-bar { height:4px; }
+    .gb-clinic { background:linear-gradient(90deg,#0ea5e9,#22d3ee); }
+    .gb-ferret { background:linear-gradient(90deg,#f97316,#fbbf24); }
+    .gb-pharma { background:linear-gradient(90deg,#22c55e,#4ade80); }
+
+    .product-img-wrap { position:relative; overflow:hidden; }
+    .product-img { width:100%; height:180px; object-fit:cover; display:block; transition:transform 0.5s ease; }
+    .product-card:hover .product-img { transform:scale(1.05); }
+    .product-img-overlay {
+      position:absolute; inset:0;
+      background:linear-gradient(to bottom, transparent 40%, rgba(255,255,255,0.7) 100%);
+    }
+    .product-img-badge {
+      position:absolute; top:0.9rem; left:0.9rem;
+      font-size:0.65rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase;
+      padding:0.26rem 0.72rem; border-radius:999px;
+      backdrop-filter: blur(8px);
+    }
+    .badge-clinic { background:rgba(14,165,233,0.15); color:#0369a1; border:1px solid rgba(14,165,233,0.3); }
+    .badge-ferret { background:rgba(249,115,22,0.15);  color:#c2410c; border:1px solid rgba(249,115,22,0.3); }
+    .badge-pharma { background:rgba(34,197,94,0.15);   color:#166534; border:1px solid rgba(34,197,94,0.3); }
+
+    .product-card-body { padding:1.5rem 1.8rem 1.2rem; flex:1; }
+    .product-card-body h3 { font-size:1.25rem; font-weight:800; color:#0c1f3f; margin:0 0 0.28rem; letter-spacing:-0.02em; }
+    .product-tagline { font-size:0.8rem; color:#6b89a8; font-style:italic; margin-bottom:0.9rem; }
+    .product-card-body p { font-size:0.86rem; color:#4a6080; line-height:1.7; margin-bottom:1.1rem; }
+    .product-features { list-style:none; padding:0; margin:0 0 1.2rem; display:flex; flex-direction:column; gap:0.42rem; }
+    .product-features li { font-size:0.81rem; color:#334e68; display:flex; align-items:center; gap:0.48rem; }
+    .product-features li::before { content:'✦'; font-size:0.52rem; flex-shrink:0; }
+    .feat-clinic li::before { color:#0ea5e9; }
+    .feat-ferret li::before { color:#f97316; }
+    .feat-pharma li::before { color:#22c55e; }
+
+    .product-card-footer { padding:1.1rem 1.8rem 1.7rem; border-top:1px solid #e8f1fb; display:flex; gap:0.7rem; flex-wrap:wrap; }
+    .btn-product { display:inline-flex; align-items:center; gap:0.35rem; padding:0.52rem 1.1rem; border-radius:8px; font-size:0.79rem; font-weight:700; letter-spacing:0.03em; cursor:pointer; transition:opacity 0.2s, transform 0.2s; text-decoration:none; border:none; }
+    .btn-product:hover { opacity:0.84; transform:scale(1.03); }
+    .btn-clinic-solid { background:#0ea5e9; color:#fff; }
+    .btn-ferret-solid { background:#f97316; color:#fff; }
+    .btn-pharma-solid { background:#22c55e; color:#fff; }
+    .btn-outline-dark  { background:transparent; color:#4a6080; border:1px solid #c7ddf0; }
+
+    /* ── FAQ SECTION ───────────────────────────────────── */
+    .faq-section {
+      background: #ffffff;
+      padding: 6rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .faq-section::before {
+      content:'';
+      position:absolute;
+      top:0; left:0; right:0;
+      height: 4px;
+      background: linear-gradient(90deg, #22c55e, #0ea5e9, #22c55e);
+    }
+    /* light faq overrides */
+    .lt-faq-list { display:flex; flex-direction:column; gap:0; max-width:800px; margin:0 auto; }
+    .lt-faq-item { border-bottom: 1px solid #e5eff8; }
+    .lt-faq-question {
+      width:100%; background:none; border:none; cursor:pointer;
+      display:flex; justify-content:space-between; align-items:center;
+      padding:1.3rem 0;
+      font-size:0.95rem; font-weight:700; color:#0c1f3f;
+      text-align:left; gap:1rem;
+      transition: color 0.2s;
+    }
+    .lt-faq-question:hover { color:#0284c7; }
+    .lt-faq-arrow { font-size:1rem; color:#94b4c8; transition:transform 0.3s; flex-shrink:0; }
+    .lt-faq-item.open .lt-faq-arrow { transform:rotate(180deg); color:#0284c7; }
+    .lt-faq-answer { display:none; padding:0 0 1.2rem; font-size:0.88rem; color:#4a6080; line-height:1.72; }
+    .lt-faq-item.open .lt-faq-answer { display:block; }
+
+    /* divider between sections */
+    .lt-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #c7ddf0 30%, #c7ddf0 70%, transparent);
+      margin: 0;
+      border: none;
+    }
+
+  </style>
 </head>
 <body>
+
+  <!-- NAV -->
   <nav class="navbar navbar-dark-bg">
     <div class="nav-container">
       <a href="index.html" class="nav-brand">
-        <img src="img/Logo_TainoSF.png" alt="" alt="Taino Software Factory" class="nav-logo"/>
+        <img src="img/Logo_TainoSF.png" alt="Taino Software Factory" class="nav-logo"/>
         <div class="nav-brand-text"><span class="nav-brand-name">TAINO</span><span class="nav-brand-sub">Software Factory</span></div>
       </a>
       <div class="nav-links">
@@ -25,144 +284,217 @@
     </div>
   </nav>
 
-  <!-- HERO -->
-  <div class="page-hero has-bg bg-image" style="background-image: url('https://images.unsplash.com/photo-1559827291-72ee739d0d9a?auto=format&fit=crop&q=80&w=1920');">
+  <!-- HERO (kept dark — it's the hero, it should contrast) -->
+  <div class="page-hero has-bg bg-image" style="background-image:url('https://images.unsplash.com/photo-1559827291-72ee739d0d9a?auto=format&fit=crop&q=80&w=1920');">
     <div class="bg-overlay-ocean"></div>
     <div class="container content-over-img text-center" style="position:relative;z-index:3;">
       <div class="section-tag reveal">🏝️ Soluciones por industria</div>
       <h1 class="section-title reveal delay-1" style="color:#fff;">Software para cada<br/><span class="highlight">sector del Caribe</span></h1>
-      <p class="section-subtitle reveal delay-2" style="margin:0 auto; color:rgba(255,255,255,0.8);">Conocemos los desafíos únicos de cada industria en la región. Construimos soluciones que realmente funcionan en nuestro mercado.</p>
+      <p class="section-subtitle reveal delay-2" style="margin:0 auto;color:rgba(255,255,255,0.82);">Conocemos los desafíos únicos de cada industria en la región. Construimos soluciones que realmente funcionan en nuestro mercado.</p>
     </div>
   </div>
 
-  <!-- INDUSTRY CARDS -->
-  <section class="section" style="background: var(--bg-sky); position:relative; overflow:hidden;">
-    <svg style="position:absolute;right:0;bottom:0;opacity:0.04;pointer-events:none;" width="280" height="380" viewBox="0 0 280 380">
-      <path d="M140 380 C138 342 132 304 135 266 C138 228 146 193 140 158 C137 134 133 115 137 95" stroke="#0ea5e9" stroke-width="18" stroke-linecap="round" fill="none"/>
-      <path d="M137 95 C109 65 59 45 29 25" stroke="#22c55e" stroke-width="7" stroke-linecap="round" fill="none"/>
-      <path d="M137 95 C125 55 121 15 127 -7" stroke="#22c55e" stroke-width="7" stroke-linecap="round" fill="none"/>
-      <path d="M137 95 C165 65 199 51 221 27" stroke="#22c55e" stroke-width="7" stroke-linecap="round" fill="none"/>
-    </svg>
-    <div class="container" style="position:relative;z-index:1;">
+  <!-- ① INDUSTRY CARDS -->
+  <section class="industry-section">
+    <div class="container">
       <div class="text-center" style="margin-bottom:3.5rem;">
-        <div class="section-tag reveal">🌴 Industrias que servimos</div>
-        <h2 class="section-title reveal delay-1">Soluciones que conocen<br/><span class="highlight">tu industria</span></h2>
-        <p class="section-subtitle reveal delay-2" style="margin:0 auto;">Cada vertical tiene sus propios desafíos. Nosotros tenemos las respuestas — con años de experiencia en el mercado caribeño.</p>
+        <div class="section-tag lt-tag reveal">🌴 Industrias que servimos</div>
+        <h2 class="section-title lt-title reveal delay-1">Soluciones que conocen<br/><span class="highlight">tu industria</span></h2>
+        <p class="section-subtitle lt-sub reveal delay-2" style="margin:0 auto;">Cada vertical tiene sus propios desafíos. Nosotros tenemos las respuestas — con años de experiencia en el mercado caribeño.</p>
       </div>
-      <div class="industry-grid">
-        <div class="industry-card reveal">
-          <div class="industry-icon-box" style="background:rgba(14,165,233,0.1);">🏦</div>
-          <div class="industry-info">
+
+      <div class="lt-industry-grid">
+
+        <div class="lt-industry-card reveal">
+          <div class="lt-industry-icon" style="background:rgba(14,165,233,0.1);">🏦</div>
+          <div>
             <h3>Fintech & Banca</h3>
             <p>Plataformas de pagos digitales, banca digital, wallets, compliance regulatorio y core bancario para instituciones financieras del Caribe.</p>
-            <div class="industry-tags"><span class="industry-tag">Pagos digitales</span><span class="industry-tag">KYC/AML</span><span class="industry-tag">Open Banking</span></div>
+            <div class="lt-industry-tags"><span class="lt-industry-tag">Pagos digitales</span><span class="lt-industry-tag">KYC/AML</span><span class="lt-industry-tag">Open Banking</span></div>
           </div>
         </div>
-        <div class="industry-card reveal delay-2">
-          <div class="industry-icon-box" style="background:rgba(251,191,36,0.12);">🛒</div>
-          <div class="industry-info">
+
+        <div class="lt-industry-card reveal delay-1">
+          <div class="lt-industry-icon" style="background:rgba(251,191,36,0.12);">🛒</div>
+          <div>
             <h3>Retail & Comercio 🏪</h3>
             <p>Desde el colmado digital hasta grandes cadenas: e-commerce, POS, gestión de inventario, fidelización de clientes y omnicanalidad.</p>
-            <div class="industry-tags"><span class="industry-tag">E-commerce</span><span class="industry-tag">POS</span><span class="industry-tag">Inventario</span></div>
+            <div class="lt-industry-tags"><span class="lt-industry-tag">E-commerce</span><span class="lt-industry-tag">POS</span><span class="lt-industry-tag">Inventario</span></div>
           </div>
         </div>
-        <div class="industry-card reveal delay-1">
-          <div class="industry-icon-box" style="background:rgba(6,182,212,0.1);">🚚</div>
-          <div class="industry-info">
+
+        <div class="lt-industry-card reveal delay-2">
+          <div class="lt-industry-icon" style="background:rgba(6,182,212,0.1);">🚚</div>
+          <div>
             <h3>Logística & Distribución</h3>
             <p>Trazabilidad, gestión de rutas, control de flotas y optimización de supply chain para el complejo ecosistema portuario caribeño.</p>
-            <div class="industry-tags"><span class="industry-tag">Trazabilidad</span><span class="industry-tag">Flota</span><span class="industry-tag">Supply Chain</span></div>
+            <div class="lt-industry-tags"><span class="lt-industry-tag">Trazabilidad</span><span class="lt-industry-tag">Flota</span><span class="lt-industry-tag">Supply Chain</span></div>
           </div>
         </div>
-        <div class="industry-card reveal delay-5">
-          <div class="industry-icon-box" style="background:rgba(22,163,74,0.1);">🎓</div>
-          <div class="industry-info">
+
+        <div class="lt-industry-card reveal delay-3">
+          <div class="lt-industry-icon" style="background:rgba(22,163,74,0.1);">🎓</div>
+          <div>
             <h3>Educación & EdTech</h3>
             <p>Plataformas LMS, gestión estudiantil, aulas virtuales y herramientas de e-learning para universidades y colegios de la región.</p>
-            <div class="industry-tags"><span class="industry-tag">LMS</span><span class="industry-tag">E-learning</span><span class="industry-tag">SIS</span></div>
+            <div class="lt-industry-tags"><span class="lt-industry-tag">LMS</span><span class="lt-industry-tag">E-learning</span><span class="lt-industry-tag">SIS</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="lt-divider"/>
+
+  <!-- ② ORBITAL CAROUSEL — servicios -->
+  <section class="carousel-section">
+    <div class="container">
+      <div class="carousel-info">
+        <div class="section-tag lt-tag reveal">🚀 Nuestros servicios</div>
+        <h2 class="section-title lt-title reveal delay-1">Todo lo que tu empresa<br/><span class="highlight">necesita digital</span></h2>
+        <p class="lt-sub reveal delay-2" style="font-size:0.9rem;margin-top:0.6rem;">Pasa el cursor sobre cada servicio para pausar y leer. Giramos en torno a tu negocio. 🌊</p>
+      </div>
+
+      <div class="orbit-scene" id="orbitScene">
+        <div class="orbit-ring" id="orbitRing"></div>
+        <div class="orbit-hub"  id="orbitHub">
+          <span class="hub-emoji">🏝️</span>
+          <span class="hub-label">Taino<br>Services</span>
+        </div>
+      </div>
+
+      <div class="carousel-hint">
+        <div class="carousel-hint-inner">✨ Pasa el cursor sobre una tarjeta para pausar el carrusel y leer más sobre ese servicio.</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="lt-divider"/>
+
+  <!-- ③ PRODUCTOS DESTACADOS -->
+  <section class="products-section">
+    <div class="container">
+      <div class="text-center" style="margin-bottom:1rem;">
+        <div class="section-tag lt-tag reveal">⭐ Productos destacados</div>
+        <h2 class="section-title lt-title reveal delay-1">Nuestros productos<br/><span class="highlight">listos para usar</span></h2>
+        <p class="section-subtitle lt-sub reveal delay-2" style="margin:0 auto;">Software especializado diseñado para las industrias más importantes del Caribe. Implementación rápida, soporte local.</p>
+      </div>
+
+      <div class="products-grid">
+
+        <!-- ClinicaSmart -->
+        <div class="product-card reveal">
+          <div class="product-gradient-bar gb-clinic"></div>
+          <div class="product-img-wrap">
+            <img class="product-img" src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800" alt="ClinicaSmart"/>
+            <div class="product-img-overlay"></div>
+            <span class="product-img-badge badge-clinic">🏥 Salud</span>
+          </div>
+          <div class="product-card-body">
+            <h3>ClinicaSmart</h3>
+            <div class="product-tagline">"La clínica inteligente del Caribe"</div>
+            <p>Sistema integral para consultorios, clínicas y hospitales privados. Del agendamiento hasta la facturación, todo en una sola plataforma.</p>
+            <ul class="product-features feat-clinic">
+              <li>Expediente médico electrónico (EMR)</li>
+              <li>Citas en línea 24/7 y recordatorios</li>
+              <li>Facturación y seguros de salud</li>
+              <li>Recetas digitales con firma</li>
+              <li>Portal del paciente</li>
+              <li>Reportes e indicadores clínicos</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- FerreteriaSmart -->
+        <div class="product-card reveal delay-2">
+          <div class="product-gradient-bar gb-ferret"></div>
+          <div class="product-img-wrap">
+            <img class="product-img" src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&q=80&w=800" alt="FerreteriaSmart"/>
+            <div class="product-img-overlay"></div>
+            <span class="product-img-badge badge-ferret">🔩 Comercio</span>
+          </div>
+          <div class="product-card-body">
+            <h3>FerreteriaSmart</h3>
+            <div class="product-tagline">"Tu ferretería siempre al día"</div>
+            <p>ERP especializado para ferreterías y distribuidoras. Control total de inventario, ventas, crédito y proveedores desde un solo lugar.</p>
+            <ul class="product-features feat-ferret">
+              <li>POS táctil ultra-rápido</li>
+              <li>Inventario con código de barras y QR</li>
+              <li>Gestión de crédito a clientes</li>
+              <li>Órdenes de compra y proveedores</li>
+              <li>Reportes de ventas en tiempo real</li>
+              <li>Integración con DGII / ITBIS</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- PharmaSmart -->
+        <div class="product-card reveal delay-4">
+          <div class="product-gradient-bar gb-pharma"></div>
+          <div class="product-img-wrap">
+            <img class="product-img" src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?auto=format&fit=crop&q=80&w=800" alt="PharmaSmart"/>
+            <div class="product-img-overlay"></div>
+            <span class="product-img-badge badge-pharma">💊 Farmacia</span>
+          </div>
+          <div class="product-card-body">
+            <h3>PharmaSmart</h3>
+            <div class="product-tagline">"Dispensación inteligente, sin errores"</div>
+            <p>Plataforma farmacéutica con control de vencimientos, alertas de stock y validación de recetas. Cumple con normativas PROMESE y MSP.</p>
+            <ul class="product-features feat-pharma">
+              <li>Control de vencimientos automático</li>
+              <li>Alertas de stock mínimo</li>
+              <li>Validación de recetas médicas</li>
+              <li>Lote y trazabilidad completa</li>
+              <li>Multi-sucursal centralizado</li>
+              <li>Integración con ClinicaSmart</li>
+            </ul>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="gradient-line"></div>
+  <hr class="lt-divider"/>
 
-  <!-- CASE STUDY -->
-  <section class="section" style="background:var(--bg-deep); position:relative; overflow:hidden;">
-    <svg style="position:absolute;left:0;top:0;opacity:0.04;pointer-events:none;" viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" width="100%" height="100">
-      <path d="M0,50 C240,90 480,10 720,50 C960,90 1200,10 1440,50" stroke="#0ea5e9" stroke-width="2" fill="none"/>
-    </svg>
-    <div class="container on-dark" style="position:relative;z-index:1;">
-      <div class="text-center" style="margin-bottom:3.5rem;">
-        <div class="section-tag reveal">✨ Caso de éxito</div>
-        <h2 class="section-title reveal delay-1">Del papel a la <span class="highlight">pantalla</span><br/>en tiempo récord</h2>
-      </div>
-      <div class="usecase-grid">
-        <div class="usecase-visual has-bg bg-image reveal-left" style="background-image: url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=800');">
-          <div class="bg-overlay-ocean"></div>
-        </div>
-        <div class="usecase-info reveal-right">
-          <div class="section-tag" style="background:rgba(34,211,238,0.12); border-color:rgba(34,211,238,0.3); color:var(--aqua);">🏦 Fintech Caribe</div>
-          <h3>Plataforma de Banca Digital<br/>para el mercado dominicano</h3>
-          <p>Un banco mediano necesitaba digitalizar sus operaciones para competir con los neobancos. Taino diseñó y desarrolló una plataforma completa de banca digital en 8 meses.</p>
-          <p>El resultado: 150,000 usuarios activos en el primer año, reducción del 60% en costos operativos y una app calificada 4.8 estrellas en las tiendas.</p>
-          <div class="usecase-metrics">
-            <div class="usecase-metric"><div class="usecase-metric-val">150K</div><div class="usecase-metric-lbl">Usuarios primer año</div></div>
-            <div class="usecase-metric"><div class="usecase-metric-val">60%</div><div class="usecase-metric-lbl">Reducción costos</div></div>
-            <div class="usecase-metric"><div class="usecase-metric-val">4.8★</div><div class="usecase-metric-lbl">Rating app store</div></div>
-            <div class="usecase-metric"><div class="usecase-metric-val">8 mes</div><div class="usecase-metric-lbl">Time-to-market</div></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="gradient-line"></div>
-
-  <!-- FAQ -->
-  <section class="section" style="position:relative; overflow:hidden;">
-    <svg style="position:absolute;left:0;bottom:0;opacity:0.04;pointer-events:none;" width="250" height="340" viewBox="0 0 250 340">
-      <path d="M125 340 C123 303 118 266 120 229 C122 192 129 158 125 124 C122 100 118 82 122 62" stroke="#0369a1" stroke-width="16" stroke-linecap="round" fill="none"/>
-      <path d="M122 62 C96 32 48 12 18 -8" stroke="#16a34a" stroke-width="6" stroke-linecap="round" fill="none"/>
-      <path d="M122 62 C111 22 108 -18 113 -40" stroke="#16a34a" stroke-width="6" stroke-linecap="round" fill="none"/>
-      <path d="M122 62 C148 32 180 18 202 -5" stroke="#16a34a" stroke-width="6" stroke-linecap="round" fill="none"/>
-    </svg>
-    <div class="container" style="position:relative;z-index:1;">
+  <!-- ④ FAQ -->
+  <section class="faq-section">
+    <div class="container">
       <div class="text-center" style="margin-bottom:3rem;">
-        <div class="section-tag reveal">❓ Preguntas frecuentes</div>
-        <h2 class="section-title reveal delay-1">Todo lo que quieres<br/><span class="highlight">saber antes de empezar</span></h2>
+        <div class="section-tag lt-tag reveal">❓ Preguntas frecuentes</div>
+        <h2 class="section-title lt-title reveal delay-1">Todo lo que quieres<br/><span class="highlight">saber antes de empezar</span></h2>
       </div>
-      <div class="faq-list">
-        <div class="faq-item reveal">
-          <button class="faq-question">¿Cuánto tiempo toma desarrollar mi proyecto? <span class="faq-arrow">▾</span></button>
-          <div class="faq-answer"><p>Depende del alcance. Una landing page o app sencilla puede estar lista en 4-6 semanas. Un sistema empresarial completo toma entre 3 y 8 meses. Siempre hacemos una estimación detallada antes de comenzar.</p></div>
-        </div>
-        <div class="faq-item reveal delay-1">
-          <button class="faq-question">¿Trabajan solo con empresas de la República Dominicana? <span class="faq-arrow">▾</span></button>
-          <div class="faq-answer"><p>No, servimos clientes en toda la región caribeña y latinoamericana. Tenemos proyectos activos en Puerto Rico, Haití, Jamaica, Colombia, Panamá y más. 🌊</p></div>
-        </div>
-        <div class="faq-item reveal delay-2">
-          <button class="faq-question">¿Qué pasa después de que el proyecto se lanza? <span class="faq-arrow">▾</span></button>
-          <div class="faq-answer"><p>Ofrecemos planes de mantenimiento y soporte post-lanzamiento. Nuestro equipo está disponible para actualizaciones, mejoras, monitoreo y soporte técnico continuo. No te dejamos solo.</p></div>
-        </div>
-        <div class="faq-item reveal delay-3">
-          <button class="faq-question">¿Pueden integrar mi software con sistemas bancarios locales? <span class="faq-arrow">▾</span></button>
-          <div class="faq-answer"><p>Sí, tenemos experiencia integrando con Banreservas, BHD, Popular y otras instituciones financieras dominicanas y caribeñas. También con ITBIS, DGII y sistemas gubernamentales.</p></div>
-        </div>
-        <div class="faq-item reveal delay-4">
-          <button class="faq-question">¿Cómo es el proceso de contratación? <span class="faq-arrow">▾</span></button>
-          <div class="faq-answer"><p>Es muy sencillo: una llamada inicial de descubrimiento → propuesta técnica y comercial → kickoff y firma → desarrollo en sprints con demos semanales. Transparente de principio a fin. 🌴</p></div>
-        </div>
-        <div class="faq-item reveal delay-5">
-          <button class="faq-question">¿Tienen experiencia con regulaciones locales (INDOTEL, SIB, etc.)? <span class="faq-arrow">▾</span></button>
-          <div class="faq-answer"><p>Absolutamente. Conocemos a fondo las regulaciones de INDOTEL, Superintendencia de Bancos, PROMESE y otras entidades. Construimos software que cumple con todas las normativas vigentes.</p></div>
-        </div>
-      </div>
+
+      <ul class="lt-faq-list">
+        <li class="lt-faq-item reveal">
+          <button class="lt-faq-question">¿Cuánto tiempo toma desarrollar mi proyecto? <span class="lt-faq-arrow">▾</span></button>
+          <div class="lt-faq-answer">Depende del alcance. Una landing page o app sencilla puede estar lista en 4–6 semanas. Un sistema empresarial completo toma entre 3 y 8 meses. Siempre hacemos una estimación detallada antes de comenzar.</div>
+        </li>
+        <li class="lt-faq-item reveal delay-1">
+          <button class="lt-faq-question">¿Trabajan solo con empresas de la República Dominicana? <span class="lt-faq-arrow">▾</span></button>
+          <div class="lt-faq-answer">No, servimos clientes en toda la región caribeña y latinoamericana. Tenemos proyectos activos en Puerto Rico, Haití, Jamaica, Colombia, Panamá y más. 🌊</div>
+        </li>
+        <li class="lt-faq-item reveal delay-2">
+          <button class="lt-faq-question">¿Qué pasa después de que el proyecto se lanza? <span class="lt-faq-arrow">▾</span></button>
+          <div class="lt-faq-answer">Ofrecemos planes de mantenimiento y soporte post-lanzamiento. Nuestro equipo está disponible para actualizaciones, mejoras, monitoreo y soporte técnico continuo. No te dejamos solo.</div>
+        </li>
+        <li class="lt-faq-item reveal delay-3">
+          <button class="lt-faq-question">¿Pueden integrar mi software con sistemas bancarios locales? <span class="lt-faq-arrow">▾</span></button>
+          <div class="lt-faq-answer">Sí, tenemos experiencia integrando con Banreservas, BHD, Popular y otras instituciones financieras dominicanas y caribeñas. También con ITBIS, DGII y sistemas gubernamentales.</div>
+        </li>
+        <li class="lt-faq-item reveal delay-4">
+          <button class="lt-faq-question">¿Cómo es el proceso de contratación? <span class="lt-faq-arrow">▾</span></button>
+          <div class="lt-faq-answer">Es muy sencillo: una llamada inicial de descubrimiento → propuesta técnica y comercial → kickoff y firma → desarrollo en sprints con demos semanales. Transparente de principio a fin. 🌴</div>
+        </li>
+        <li class="lt-faq-item reveal delay-5">
+          <button class="lt-faq-question">¿Tienen experiencia con regulaciones locales (INDOTEL, SIB, etc.)? <span class="lt-faq-arrow">▾</span></button>
+          <div class="lt-faq-answer">Absolutamente. Conocemos a fondo las regulaciones de INDOTEL, Superintendencia de Bancos, PROMESE y otras entidades. Construimos software que cumple con todas las normativas vigentes.</div>
+        </li>
+      </ul>
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- FOOTER (kept dark for contrast) -->
   <footer>
     <div class="container">
       <div class="footer-grid">
@@ -178,15 +510,13 @@
             <div class="footer-social-btn">f</div>
           </div>
         </div>
-        <div class="footer-col">
-        </div>
+        <div class="footer-col"></div>
         <div class="footer-col">
           <h4>Empresa</h4>
           <ul>
             <li><a href="index.html">Inicio</a></li>
             <li><a href="features.html">Servicios</a></li>
             <li><a href="about.html">Nosotros</a></li>
-
           </ul>
         </div>
         <div class="footer-col">
@@ -197,7 +527,7 @@
           </div>
           <div class="footer-contact-item">
             <div class="footer-contact-icon">✉️</div>
-            <p><strong>Email</strong>hola@tainosf.com</p>
+            <p><strong>Email</strong><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6901060508291d080007061a0f470a0604">[email&#160;protected]</a></p>
           </div>
           <div class="footer-contact-item">
             <div class="footer-contact-icon">📞</div>
@@ -219,6 +549,75 @@
       </div>
     </div>
   </footer>
-  <script src="js/main.js"></script>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="js/main.js"></script>
+
+  <script>
+  /* ── ORBIT CAROUSEL ───────────────────────────────── */
+  (function () {
+    var services = [
+      { icon:'🎯', title:'Landing Pages',     desc:'Páginas de conversión de alto impacto para campañas y lanzamientos' },
+      { icon:'🌐', title:'Páginas Web',        desc:'Sitios corporativos modernos y responsivos que proyectan tu marca' },
+      { icon:'📱', title:'Apps Móviles',       desc:'iOS y Android nativos o multiplataforma con React Native / Flutter' },
+      { icon:'🛍️', title:'E-commerce',        desc:'Tiendas en línea con pagos, inventario y logística local' },
+      { icon:'⚙️', title:'Software a Medida', desc:'ERPs, CRMs y sistemas empresariales para tu operación' },
+      { icon:'🎨', title:'Branding Digital',   desc:'Identidad visual, UI/UX design y materiales de marca digitales' },
+    ];
+    var N=services.length, CARD_W=195, CARD_H=140, DURATION=28000;
+    var scene=document.getElementById('orbitScene');
+    var ring =document.getElementById('orbitRing');
+    var hub  =document.getElementById('orbitHub');
+
+    function radius()    { return window.innerWidth<=700?140:290; }
+    function sceneSize() { var r=radius(); return (r+CARD_W*0.6+30)*2; }
+
+    function layout() {
+      var r=radius(), sz=sceneSize();
+      scene.style.width =sz+'px'; scene.style.height=sz+'px';
+      var rr=r*2; ring.style.width=rr+'px'; ring.style.height=rr+'px';
+      var hs=window.innerWidth<=700?72:114;
+      hub.style.width=hs+'px'; hub.style.height=hs+'px';
+      hub.querySelector('.hub-emoji').style.fontSize=Math.round(hs*0.33)+'px';
+    }
+
+    var cards=services.map(function(s){
+      var d=document.createElement('div');
+      d.className='orbit-card';
+      d.style.width=CARD_W+'px'; d.style.minHeight=CARD_H+'px';
+      d.innerHTML='<span class="orbit-card-icon">'+s.icon+'</span>'+
+                  '<div class="orbit-card-title">'+s.title+'</div>'+
+                  '<div class="orbit-card-desc">'+s.desc+'</div>';
+      scene.appendChild(d); return d;
+    });
+
+    var paused=false, frozenT=0, startedAt=performance.now();
+    scene.addEventListener('mouseenter',function(){ if(!paused){frozenT=performance.now()-startedAt;paused=true;} });
+    scene.addEventListener('mouseleave',function(){ if(paused){startedAt=performance.now()-frozenT;paused=false;} });
+
+    function tick(now){
+      layout();
+      var r=radius(),sz=sceneSize(),cx=sz/2,cy=sz/2;
+      var t=paused?frozenT:(now-startedAt);
+      var base=(t/DURATION)*Math.PI*2;
+      cards.forEach(function(card,i){
+        var a=base+(i/N)*Math.PI*2;
+        card.style.left=(cx+r*Math.cos(a)-CARD_W/2)+'px';
+        card.style.top =(cy+r*Math.sin(a)-CARD_H/2)+'px';
+      });
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  })();
+
+  /* ── FAQ ACCORDION ────────────────────────────────── */
+  document.querySelectorAll('.lt-faq-question').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var item=this.closest('.lt-faq-item');
+      var wasOpen=item.classList.contains('open');
+      document.querySelectorAll('.lt-faq-item').forEach(function(i){ i.classList.remove('open'); });
+      if(!wasOpen){ item.classList.add('open'); }
+    });
+  });   
+  </script>
 </body>
 </html>
