@@ -1,12 +1,11 @@
 /* ── ORBIT CAROUSEL ───────────────────────────────── */
   (function () {
     var services = [
-      { icon:'🎯', title:'Landing Pages',     desc:'Páginas de conversión de alto impacto para campañas y lanzamientos' },
-      { icon:'🌐', title:'Páginas Web',        desc:'Sitios corporativos modernos y responsivos que proyectan tu marca' },
-      { icon:'📱', title:'Apps Móviles',       desc:'iOS y Android nativos o multiplataforma con React Native / Flutter' },
-      { icon:'🛍️', title:'E-commerce',        desc:'Tiendas en línea con pagos, inventario y logística local' },
-      { icon:'⚙️', title:'Software a Medida', desc:'ERPs, CRMs y sistemas empresariales para tu operación' },
-      { icon:'🎨', title:'Branding Digital',   desc:'Identidad visual, UI/UX design y materiales de marca digitales' },
+    { icon: '🌐', title: 'Páginas Web',       desc: 'Sitios corporativos modernos y responsivos para tu empresa en RD y el Caribe' },
+    { icon: '🎯', title: 'Landing Pages',      desc: 'Páginas de conversión para campañas, promociones y captación de clientes' },
+    { icon: '⚙️', title: 'Software a Medida', desc: 'ERPs, CRMs y sistemas adaptados a los procesos de tu empresa' },
+    { icon: '🧾', title: 'Facturación & DGII', desc: 'Comprobantes fiscales electrónicos (e-CF) integrados a la DGII' },
+    { icon: '🏥', title: 'Productos Smart',    desc: 'ClinicaSmart, FerreteriaSmart y PharmaSmart — listos para implementar' },
     ];
     var N=services.length, CARD_W=195, CARD_H=140, DURATION=28000;
     var scene=document.getElementById('orbitScene');
@@ -35,7 +34,6 @@
       scene.appendChild(d); return d;
     });
 
-    // ✅ CAMBIO: pausar solo al hacer hover sobre una tarjeta individual
     var paused=false, frozenT=0, startedAt=performance.now();
 
     cards.forEach(function(card){
