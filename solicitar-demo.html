@@ -99,22 +99,17 @@
             <a href="index.html" class="df-back-btn">Volver al inicio →</a>
           </div>
 
-          <!--
-            ╔══════════════════════════════════════════╗
-            ║  FORMSPREE — reemplaza YOUR_FORM_ID      ║
-            ║  con el ID de tu formulario en           ║
-            ║  https://formspree.io/forms              ║
-            ╚══════════════════════════════════════════╝
-          -->
           <form
             class="df-form"
             id="df-form"
-            action="https://formspree.io/f/YOUR_FORM_ID"
+            action="https://api.web3forms.com/submit"
             method="POST"
             novalidate
           >
-            <input type="hidden" name="_subject" value="Nueva solicitud de demo desde tainosf.com 🎬"/>
-            <input type="text"   name="_gotcha"  style="display:none"/>
+            <input type="hidden" name="access_key" value="6ec77e25-9788-4af2-ad80-d3987dfe14dc"/>
+            <input type="hidden" name="subject"    value="Nueva solicitud de demo desde tainosf.com 🎬"/>
+            <input type="hidden" name="from_name"  value="Taino Software Factory"/>
+            <input type="text"   name="botcheck"   style="display:none"/>
 
             <div class="df-row">
               <div class="df-field" id="field-nombre">
@@ -190,7 +185,7 @@
                 <option value="esta-semana">Esta semana</option>
                 <option value="proxima-semana">La próxima semana</option>
                 <option value="manana">Por la mañana (8am – 12pm)</option>
-                <option value="tarde">Por la tarde (12pm – 6pm)</option>
+                <option value="tarde">Por la tarde (12pm – 5pm)</option>
                 <option value="flexible">Soy flexible, lo coordino con ustedes</option>
               </select>
               <span class="df-error-msg">Por favor indica tu disponibilidad.</span>
@@ -219,7 +214,6 @@
         <!-- SIDEBAR -->
         <aside class="demo-sidebar">
 
-          <!-- Pasos -->
           <div class="demo-sidebar-card">
             <h3>📋 ¿Cómo funciona?</h3>
             <div class="demo-steps">
@@ -247,17 +241,23 @@
               <div class="demo-step">
                 <div class="demo-step-num">4</div>
                 <div class="demo-step-text">
-                  <strong>Propuesta en 48h</strong>
-                  <span>Recibes una propuesta técnica y comercial sin compromiso.</span>
+                  <strong>Propuesta sin compromiso</strong>
+                  <span>Recibes una propuesta técnica y comercial adaptada a tu negocio.</span>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Contact fallback -->
           <div class="demo-sidebar-card" style="background:linear-gradient(135deg,#0c4a6e,#0369a1); border-color:rgba(34,211,238,0.2);">
             <h3 style="color:#fff;">¿Prefieres hablar primero?</h3>
             <p style="font-size:0.84rem; color:rgba(255,255,255,0.7); margin-bottom:1rem; line-height:1.6;">Escríbenos directamente y te respondemos al momento.</p>
+            <a href="https://wa.me/18097702803" target="_blank" style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(37,211,102,0.2);border:1px solid rgba(37,211,102,0.35);border-radius:10px;padding:0.65rem 1.1rem;font-size:0.83rem;font-weight:700;color:#4ade80;font-family:var(--font-head);text-decoration:none;margin-bottom:0.6rem;width:100%;justify-content:center;transition:background 0.2s;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              WhatsApp · 809-770-2803
+            </a>
+            <a href="mailto:ventas@tainosf.com" style="display:inline-flex;align-items:center;gap:0.5rem;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:0.65rem 1.1rem;font-size:0.83rem;font-weight:700;color:rgba(255,255,255,0.8);font-family:var(--font-head);text-decoration:none;width:100%;justify-content:center;transition:background 0.2s;">
+              ✉️ ventas@tainosf.com
+            </a>
           </div>
 
         </aside>
@@ -275,7 +275,7 @@
           <div class="footer-brand-sub">Software Factory</div>
           <p>Fábrica de software especializada en soluciones digitales para empresas del Caribe y Latinoamérica. Del mar al código.</p>
           <div class="footer-socials">
-            <a href="https://wa.me/18090000000" target="_blank" class="footer-social-btn wa" aria-label="WhatsApp">
+            <a href="https://wa.me/18097702803" target="_blank" class="footer-social-btn wa" aria-label="WhatsApp">
               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
             </a>
             <a href="https://instagram.com/tainosf" target="_blank" class="footer-social-btn ig" aria-label="Instagram">
@@ -296,6 +296,7 @@
             <li><a href="index.html">Inicio</a></li>
             <li><a href="features.html">Servicios</a></li>
             <li><a href="about.html">Nosotros</a></li>
+            <li><a href="soluciones.html">Soluciones</a></li>
           </ul>
         </div>
         <div class="footer-col">
